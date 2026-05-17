@@ -26,7 +26,7 @@ export async function GET(req: NextRequest) {
       },
     });
 
-    const formattedStudents = students.map((s) => ({
+    const formattedStudents = students.map((s: any) => ({
       ...s,
       cgpa: s.cgpa ? Number(s.cgpa) : null,
     }));
