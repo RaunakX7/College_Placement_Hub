@@ -1,0 +1,115 @@
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// =========================
+// Admin Model
+// =========================
+model Admin {
+  id       Int    @id @default(autoincrement())
+  username String @unique
+  password String
+
+  @@map("admin")
+}
+
+// =========================
+// Student Model
+// =========================
+model Student {
+  id             Int           @id @default(autoincrement())
+  name           String
+  email          String        @unique
+  rollNumber     String        @map("roll_number")
+  password       String
+  phone          String?
+  location       String?
+  cgpa           Float?
+  skills         String?
+  bio            String?
+  department     String?
+  graduationYear String?       @map("graduation_year")
+  resume         String?
+  linkedinUrl    String?       @map("linkedin_url")
+  githubUrl      String?       @map("github_url")
+  createdAt      DateTime      @default(now()) @map("created_at")
+  updatedAt      DateTime      @updatedAt @map("updated_at")
+  applications   Application[]
+  savedJobs      SavedJob[]
+
+  @@map("students")
+}
+
+// =========================
+// Internship / Job Model
+// =========================
+model Internship {
+  id           Int           @id @default(autoincrement())
+  companyName  String        @map("company_name")
+  title        String
+  type         String        // "Internship" or "Placement"
+  location     String?
+  eligibility  String?
+  description  String?
+  lastDate     DateTime?     @map("last_date")
+  applications Application[]
+  savedJobs    SavedJob[]
+
+  @@map("internships")
+}
+
+// =========================
+// Applications Model
+// =========================
+model Application {
+  id           Int              @id @default(autoincrement())
+  studentId    Int              @map("student_id")
+  internshipId Int              @map("internship_id")
+  status       String           @default("Pending") // "Pending", "Selected", "Rejected", "Admin Review"
+  createdAt    DateTime         @default(now()) @map("created_at")
+  updatedAt    DateTime         @updatedAt @map("updated_at")
+  student      Student          @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  internship   Internship       @relation(fields: [internshipId], references: [id], onDelete: Cascade)
+  rounds       InterviewRound[]
+
+  @@map("applications")
+}
+
+// =========================
+// Saved Jobs Model
+// =========================
+model SavedJob {
+  id           Int        @id @default(autoincrement())
+  studentId    Int        @map("student_id")
+  internshipId Int        @map("internship_id")
+  savedAt      DateTime   @default(now()) @map("saved_at")
+  student      Student    @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  internship   Internship @relation(fields: [internshipId], references: [id], onDelete: Cascade)
+
+  @@unique([studentId, internshipId], name: "uniqueSavedJob")
+  @@map("saved_jobs")
+}
+
+// =========================
+// Interview Rounds Model
+// =========================
+model InterviewRound {
+  id            Int         @id @default(autoincrement())
+  applicationId Int         @map("application_id")
+  roundNumber   Int         @map("round_number")
+  roundTitle    String      @map("round_title")
+  roundStatus   String      @default("Scheduled") @map("round_status") // "Scheduled", "Passed", "Failed", "Pending"
+  scheduledAt   DateTime?   @map("scheduled_at")
+  remarks       String?
+  createdAt     DateTime    @default(now()) @map("created_at")
+  updatedAt     DateTime    @updatedAt @map("updated_at")
+  application   Application @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+
+  @@unique([applicationId, roundNumber], name: "uniqueApplicationRound")
+  @@map("interview_rounds")
+}

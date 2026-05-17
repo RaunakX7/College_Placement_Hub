@@ -1,0 +1,39 @@
+===================================================================
+                  PLACEHUB PORTAL - TECH STACK LIST
+===================================================================
+
+[FRONTEND ARCHITECTURE]
+* Framework: Next.js 14+ (using React 19 Client/Server Components)
+* Design Engine: Responsive CSS3 Flexbox/Grid
+* Layout Pattern: Glassmorphic Visuals, custom CSS Cards, and Sidebar panels
+* Core Icons: Lucide React (standard developer release)
+* Client Routing: Next.js App Router (zero manual URL switching needed)
+
+[BACKEND & API LAYER]
+* Runtime Environment: Node.js
+* Language: TypeScript (strict static typing)
+* Router: Next.js API Routes (Route Handlers inside App Router)
+* Request Processing: Poly-validated HTTP POST, GET, PATCH endpoints
+
+[DATABASE & ORM LAYER]
+* Database Engine: SQLite (self-contained, high-performance 'dev.db' file)
+* Schema Manager: Prisma ORM (v5.22.0)
+* Data Relationships: Relational Tables (Student, Admin, Internship, Application, InterviewRound, SavedJob)
+* Database seeding: Custom Node.js seeder ('prisma/seed.js')
+
+[SECURITY & AUTHENTICATION]
+* User Sessions: JSON Web Tokens (JWT)
+* Token Delivery: Secure, HttpOnly, SameSite "lax" browser cookies
+* Password Security: BCrypt.js (10-round salted secure password hashing)
+* RBAC (Role-Based Access Control): Segregation between Student and Administrator routing
+
+[FORM HANDLING & VALIDATION]
+* Form Manager: React Hook Form
+* Schema Validator: Zod
+* Form Integrations: Zod-Resolver for React Hook Form (superRefine polymorphs)
+
+[DEVELOPMENT & SYSTEM UTILITIES]
+* Project Bootstrapper: Custom Windows Command script ('run_server.bat' & 'quick_server.bat')
+* Code Linter: ESLint Standard config
+* Configuration Loader: dotenv (env variables mapping)
+===================================================================
