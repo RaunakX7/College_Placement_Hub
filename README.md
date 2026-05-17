@@ -117,6 +117,24 @@ For Windows users, two helper scripts are provided to streamline local setup and
 
 ---
 
+## 🌐 Production Environment Configuration
+
+When deploying the **PlaceHub Portal** to production hosting platforms like **Render.com** or **Vercel**:
+
+> [!IMPORTANT]
+> **Do NOT upload or use a local `.env` file for production secrets.** 
+> The `.env` file is strictly ignored via [.gitignore](file:///d:/college-placement-internship-management-system-main_legacy/college-placement-internship-management-system-main_legacy/.gitignore) to protect credentials and prevent security breaches.
+
+### How to configure `DATABASE_URL`:
+1. Navigate to your hosting dashboard (e.g., Render Web Service Settings).
+2. Under the **Environment Variables** (or **Config Vars**) tab, add a new environment variable:
+   *   **Key**: `DATABASE_URL`
+   *   **Value**: `postgresql://<user>:<password>@<host>:<port>/<database>` (your live production PostgreSQL connection string)
+3. Set your production `JWT_SECRET` key in the environment variables as well.
+4. Trigger a new deployment. Render will automatically run the `postinstall` script to compile the Prisma client against your PostgreSQL schema cleanly!
+
+---
+
 ## 👥 Contributors
 Developed in partial fulfillment of the award of **Bachelor of Computer Application (BCA)**, Session 2025-26.
 *   **Rohitash Gar**
